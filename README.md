@@ -1,46 +1,34 @@
 # quali.chat
 
-Equipping your decentralized conversations with superior quality and bringing all your token-gated communities into one easy-to-use chat and collaboration app.
-
-## Key Features
-
-- **Web3 Authentication:** Sign in with Ethereum (SIWE) and OIDC for seamless wallet-based login.
-- **Matrix Protocol:** Robust, federated chat infrastructure.
-- **Token-Gated Access:** Room membership and permissions based on on-chain balances.
-- **Multi-Platform:** Web, Android, and iOS clients.
+quali.chat is a chat app that extends the decentralised Matrix communication protocol with blockchain-based authentication and token-gated access control based on on-chain balances, enabling secure and permissioned communication across multiple blockchain networks.
 
 ---
 
-## Repository Structure
+## Repositories Structure
 
-- **[quali-chat-core](https://github.com/quali-chat/quali-chat-core):** Core backend logic for token-gated access, room management, and bot orchestration.
-- **[synapse-homeserver-patch](https://github.com/quali-chat/synapse-homeserver-patch):** Custom Synapse server configuration and modules for Matrix.
-- **[quali-chat-web](https://github.com/quali-chat/quali-chat-web):** Web client, a customized fork of element-web.
-- **[quali-chat-android](https://github.com/quali-chat/quali-chat-android) / [quali-chat-ios](https://github.com/quali-chat/quali-chat-ios):** Native mobile clients.
+- **[quali-chat-core](https://github.com/quali-chat/quali-chat-core):** Core logic for token-gated access, room management, and bot orchestration.
+- **[quali-chat-synapse-patch](https://github.com/quali-chat/quali-chat-synapse-patch):** Custom Synapse server configuration and modules.
+- **[quali-chat-web](https://github.com/quali-chat/quali-chat-web):** Web client.
+- **[quali-chat-android](https://github.com/quali-chat/quali-chat-android)**: Native iOS client.
+- **[quali-chat-ios](https://github.com/quali-chat/quali-chat-android)**: Native Android client.
 
 ---
 
 ## Prerequisites
 
-Set up the following services. These are open source repositories. quali.chat requires a few custom configurations, which are defined here.
+Installation and configuration of:
+- Synapse: Matrix homeserver ([element-hq/synapse](https://github.com/element-hq/synapse))
+  - [quali-chat/synapse-homeserver-patch](https://github.com/quali-chat/synapse-homeserver-patch.git) contains configurations, custom modules, and pre-registered bot accounts needed for quali.chat.
+- SIWE: Sign in with Ethereum OIDC server ([spruceid/siwe-oidc](https://github.com/spruceid/siwe-oidc))
+  - Set `CLIENT_ID` and `CLIENT_SECRET` as defined in the homeserver setup, and set `REDIRECT_URI` to `https://MATRIX_HOMESERVER_URL/_synapse/client/oidc/callback`.
 
-- Protocols
-  - Matrix protocol ([https://matrix.org/](https://matrix.org/))
-  - OIDC protocol ([https://auth0.com/docs/authenticate/protocols/openid-connect-protocol](https://auth0.com/docs/authenticate/protocols/openid-connect-protocol))
-
-- Implementation and configuration
-  - Synapse: Matrix homeserver ([element-hq/synapse](https://github.com/element-hq/synapse))
-    - [quali-chat/synapse-homeserver-patch](https://github.com/quali-chat/synapse-homeserver-patch.git) contains configurations, custom modules, and pre-registered bot accounts needed for quali.chat.
-  - SIWE: Sign in with Ethereum OIDC server ([spruceid/siwe-oidc](https://github.com/spruceid/siwe-oidc))
-    - Set `CLIENT_ID` and `CLIENT_SECRET` as defined in the homeserver setup, and set `REDIRECT_URI` to `https://MATRIX_HOMESERVER_URL/_synapse/client/oidc/callback`.
-  - Both the SIWE-OIDC and Matrix homeserver require secure (HTTPS) connections. You must use TLS keys to ensure encrypted communication.
+Both SIWE-OIDC and Matrix homeserver require secure (HTTPS) connections. You must use TLS keys to ensure encrypted communication.
 
 ---
 
-## Run custom services
+## Setup
 
-Once you have your Matrix homeserver and SIWE OIDC provider running, you can immediately set up and use the quali.chat open source components.
-
+Once you have your Matrix homeserver and SIWE OIDC provider running, you can immediately set up and use the quali.chat components. Prerequisites:
 - Node.js (latest LTS)
 - Docker & Docker Compose
 - Alchemy API key ([get one](https://dashboard.alchemy.com/))
@@ -48,44 +36,42 @@ Once you have your Matrix homeserver and SIWE OIDC provider running, you can imm
 
 ### 1. Setup quali-chat-core
 
-This is the core logic that manages user room memberships and permissions.
+In a new terminal, clone and set up the core:
 
-- In a new terminal, clone and set up the core backend:
-
-  ```sh
-  git clone https://github.com/quali-chat/quali-chat-core.git
-  cd quali-chat-core
-  npm install
-  cp .env.example .env
-  # Edit .env with your API keys and configuration
-  docker run --name redis -p 6379:6379 -d redis
-  npm run dev
-  ```
+```sh
+git clone https://github.com/quali-chat/quali-chat-core.git
+cd quali-chat-core
+npm install
+cp .env.example .env
+# Edit .env with your API keys and configuration
+docker run --name redis -p 6379:6379 -d redis
+npm run start
+```
 
 ---
 
 ### 2. Setup quali-chat-web
 
-- In a new terminal, clone and set up the web client:
+In a new terminal, clone and set up the web client:
 
-  ```sh
-  git clone https://github.com/quali-chat/quali-chat-web.git
-  cd quali-chat-web
-  yarn install
-  cp config.sample.json config.json # edit the Matrix homeserver URL
-  yarn start
-  ```
+```sh
+git clone https://github.com/quali-chat/quali-chat-web.git
+cd quali-chat-web
+yarn install
+cp config.sample.json config.json # edit the Matrix homeserver URL
+yarn start
+```
 
 ### 3. Setup native clients
 
-Setup custom Android and IOS client as per the README.
+Setup custom Android and iOS client as per the README.
 
 - [quali-chat/quali-chat-android](https://github.com/quali-chat/quali-chat-android.git)
 - [quali-chat/quali-chat-ios](https://github.com/quali-chat/quali-chat-ios.git)
 
 ## Quick Start Guide for local development
 
-The following guide helps you set up a local development environment running all services.
+The following guide helps you set up a local development environment running all components.
 
 ### 1. Setup SIWE OIDC Provider
 
@@ -138,9 +124,9 @@ The following guide helps you set up a local development environment running all
 
 ---
 
-### 3. Run custom services
+### 3. Setup quali.chat
 
-Refer to the earlier section [Run custom services](#run-custom-services)
+Refer to the earlier section [Setup](#setup)
 
 ---
 

@@ -16,6 +16,8 @@ quali.chat is a chat app that extends the decentralised Matrix communication pro
 
 ## Prerequisites
 
+This guide assumes familiarity with Linux server administration, Docker and Docker Compose, OAuth2/OIDC identity providers, Matrix protocol fundamentals and Synapse homeserver configuration/operations, TLS/HTTPS certificate management, reverse proxies (e.g., Nginx) and DNS, basic networking/firewalls, and Node.js tooling.
+
 Installation and configuration of:
 - Synapse: Matrix homeserver ([element-hq/synapse](https://github.com/element-hq/synapse))
   - [quali-chat/synapse-homeserver-patch](https://github.com/quali-chat/synapse-homeserver-patch.git) contains configurations, custom modules, and pre-registered bot accounts needed for quali.chat.
